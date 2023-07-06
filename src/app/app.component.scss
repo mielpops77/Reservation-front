@@ -1,0 +1,36 @@
+.example-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px; /* ou ajustez la marge supérieure selon vos besoins */
+}
+
+.mat-form-field {
+  width: 300px; /* ou ajustez la largeur selon vos besoins */
+  margin-bottom: 10px; /* ou ajustez la marge selon vos besoins */
+}
+
+.custom-select {
+  width: 100%;
+  font-size: 16px;
+  border-radius: 4px;
+  padding: 20px 16px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #5c6ac4;
+  box-shadow: 0 0 0 2px rgba(92, 106, 196, 0.2);
+}
+
+::ng-deep .mat-form-field-underline,
+::ng-deep .cdk-high-contrast-active  {
+  height: unset !important;
+  display: none !important;
+  
+}
+
+
