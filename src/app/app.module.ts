@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 @NgModule({
@@ -13,13 +14,14 @@ import { NgModule } from '@angular/core';
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
+   /*  BrowserModule,
     AppRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule */
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: { display: { dateInput: 'DD/MM/YYYY' } } },

@@ -1,8 +1,8 @@
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatDatepicker, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-root',
@@ -37,14 +37,14 @@ export class AppComponent implements OnInit {
   isPickerOpen = false;
 
   @ViewChild('picker') picker!: MatDatepicker<Date>;
-  constructor(private fb: FormBuilder, private dateAdapter: DateAdapter<Date>, private http: HttpClient) { }
+  constructor(/* private fb: FormBuilder, */ private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+   /*  this.form = this.fb.group({
       choice: ['all'],
       guestNumber: ['all'],
       selectedDate: [''],
-    });
+    }); */
     this.form.get('selectedDate')?.valueChanges.subscribe((value) => {
       this.isPickerOpen = true;
       console.log('Date sélectionnée :', value, this.isPickerOpen);
