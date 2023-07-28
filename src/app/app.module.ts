@@ -1,8 +1,8 @@
 
 import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,13 +15,13 @@ import { NgModule } from '@angular/core';
   ],
   imports: [
     CommonModule,
-   /*  BrowserModule,
+    BrowserModule,
     AppRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     BrowserAnimationsModule,
-    HttpClientModule */
+    HttpClientModule,
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: { display: { dateInput: 'DD/MM/YYYY' } } },

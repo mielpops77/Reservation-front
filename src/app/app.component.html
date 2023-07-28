@@ -1,40 +1,144 @@
-<!-- <form class="example-form" [formGroup]="form">
-  <mat-form-field>
-    <mat-select formControlName="choice" class="custom-select">
+<div class="resume-container" *ngIf="!stepOne">
+
+  <mat-icon (click)="stepConfig(true)" class="arrow-icon">keyboard_arrow_left</mat-icon>
+  <div class="custom-resume-number">
+    <span class="text-resume">{{form.get('guestNumber')?.value}}</span>
+  </div>
+
+  <div class="custom-resume-date">
+    <span class="text-resume">{{formattedDate}}</span>
+  </div>
+
+  <div class="custom-resume-hour">
+    <span class="text-resume">{{hourSelected}}</span>
+  </div>
+</div>
+
+
+
+<form [ngClass]="stepOne ? 'form' : 'formStep2'" [formGroup]="form">
+  <mat-form-field class="custom-form-field" appearance="outline" *ngIf="stepOne">
+    <mat-select formControlName="choice" class="custom-select" (selectionChange)="onSelectionServiceChange($event)">
       <mat-option value="all">Tous les services</mat-option>
       <mat-option value="breakfast">Déjeuner</mat-option>
-      <mat-option value="afternoon">Après midi</mat-option>
+      <mat-option value="afternoon">Après-midi</mat-option>
       <mat-option value="dinner">Dîner</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-select formControlName="guestNumber" class="custom-select" (openedChange)="onSelectOpen($event)">
-      <mat-option *ngIf="!open" value="all">Nombre d'invités</mat-option>
-      <mat-option value="1">1 personne</mat-option>
-      <mat-option value="2">2 personnes</mat-option>
-      <mat-option value="3">3 personnes</mat-option>
-      <mat-option value="4">4 personnes</mat-option>
-      <mat-option value="5">5 personnes</mat-option>
-      <mat-option value="6">6 personnes</mat-option>
-      <mat-option value="7">7 personnes</mat-option>
-      <mat-option value="8">8 personnes</mat-option>
-      <mat-option value="9">9 personnes</mat-option>
-      <mat-option value="10">10 personnes</mat-option>
-      <mat-option value="11">11 personnes</mat-option>
-      <mat-option value="12">12 personnes</mat-option>
+
+  <mat-form-field class="custom-form-field" appearance="outline" *ngIf="stepOne">
+    <mat-select formControlName="guestNumber" class="custom-select" (selectionChange)="onSelectionInvitationChange($event)">
+      <mat-option *ngIf="!initGestNumber" value="all" [disabled]="isGuestNumberDisabled">Nombre d'invités</mat-option>
+      <mat-option *ngFor="let number of guestNumbers" [value]="number">{{ number }} personne{{ number > 1 ? 's' : '' }}</mat-option>
     </mat-select>
   </mat-form-field>
+  
+
+  <mat-card class="demo-inline-calendar-card" *ngIf="form.get('guestNumber')?.value !== 'all' && stepOne">
+    <mat-calendar [(selected)]="selected" [minDate]="currentDate" (selectedChange)="dateSelected($event)"
+      [dateClass]="dateClassCallback"> </mat-calendar>
+  </mat-card>
 
 
-  <mat-form-field *ngIf="form.get('guestNumber')?.value !== 'all'">
-    <mat-label>Date</mat-label>
-    <input matInput [matDatepicker]="picker" formControlName="selectedDate" [matDatepickerFilter]="dateFilter">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker [opened]="isPickerOpen"  ></mat-datepicker>
+  <div class="custom-Hour" *ngIf="form.get('guestNumber')?.value !== 'all' && selected !== null && stepOne">
+    <span class="text">{{ hourSelected !== "" ? hourSelected : 'Heure' }}</span>
+    <mat-icon>access_time</mat-icon>
+  </div>
+
+  <div class="schedule-container" *ngIf="form.get('guestNumber')?.value !== 'all' && selected !== null && stepOne">
+    <div class="schedule-item" *ngFor="let option of scheduleOptions">
+      <div *ngIf="form.get('choice')?.value == 'all'" class="schedule-label">{{ option.label }}</div>
+
+      <div *ngIf="form.get('choice')?.value == 'all'" class="schedule-buttons">
+        <button *ngFor="let scheduleTime of option.times" (click)="hourChange(scheduleTime.time)" [ngClass]="{
+            'schedule-button-click': hourSelected === scheduleTime.time,
+            'schedule-button-past': scheduleTime.isPast,
+            'schedule-button': (!scheduleTime.isPast && hourSelected !== scheduleTime.time)
+          }" [disabled]="scheduleTime.isPast">
+          {{ scheduleTime.time }}
+        </button>
+      </div>
+
+
+      <div *ngIf="form.get('choice')?.value == 'breakfast' && option.label == 'Déjeuner' " class="schedule-label">{{
+        option.label }}</div>
+
+      <div class="schedule-buttons" *ngIf="form.get('choice')?.value == 'breakfast' && option.label == 'Déjeuner'">
+        <button *ngFor="let scheduleTime of option.times" (click)="hourChange(scheduleTime.time)" [ngClass]="{
+            'schedule-button-click': hourSelected === scheduleTime.time,
+            'schedule-button-past': scheduleTime.isPast,
+            'schedule-button': (!scheduleTime.isPast && hourSelected !== scheduleTime.time)
+
+          }" [disabled]="scheduleTime.isPast">
+          {{ scheduleTime.time }}
+        </button>
+      </div>
+
+
+      <div *ngIf="form.get('choice')?.value == 'afternoon' && option.label == 'Après-midi'" class="schedule-label">{{
+        option.label }}</div>
+      <div class="schedule-buttons" *ngIf="form.get('choice')?.value == 'afternoon' && option.label == 'Après-midi'">
+        <button *ngFor="let scheduleTime of option.times" (click)="hourChange(scheduleTime.time)" [ngClass]="{
+          'schedule-button-click': hourSelected === scheduleTime.time,
+          'schedule-button-past': scheduleTime.isPast,
+          'schedule-button': (!scheduleTime.isPast && hourSelected !== scheduleTime.time)
+
+        }" [disabled]="scheduleTime.isPast">
+          {{ scheduleTime.time }}
+        </button>
+      </div>
+
+      <div *ngIf="form.get('choice')?.value == 'dinner' && option.label == 'Dîner'" class="schedule-label">{{
+        option.label }}</div>
+      <div class="schedule-buttons" *ngIf="form.get('choice')?.value == 'dinner' && option.label == 'Dîner'">
+        <button *ngFor="let scheduleTime of option.times" (click)="hourChange(scheduleTime.time)" [ngClass]="{
+          'schedule-button-click': hourSelected === scheduleTime.time,
+          'schedule-button-past': scheduleTime.isPast,
+          'schedule-button': (!scheduleTime.isPast && hourSelected !== scheduleTime.time)
+
+        }" [disabled]="scheduleTime.isPast">
+          {{ scheduleTime.time }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <button *ngIf="stepOne" class="send" mat-raised-button color="primary" (click)="stepConfig(false)"
+    [disabled]="hourSelected === ''">Valider</button>
+
+
+  <!-- ... Autres éléments du formulaire ... -->
+
+  <h3 *ngIf="!stepOne">CONTACT</h3>
+
+  <mat-form-field class="custom-form-field" appearance="outline" *ngIf="!stepOne">
+    <mat-label>Prénom</mat-label>
+    <input matInput formControlName="firstName">
+  </mat-form-field>
+
+  <mat-form-field class="custom-form-field" appearance="outline" *ngIf="!stepOne">
+    <mat-label>Nom</mat-label>
+    <input matInput formControlName="lastName">
   </mat-form-field>
 
 
+  <mat-form-field class="custom-form-field" appearance="outline" *ngIf="!stepOne">
+    <mat-label>Mobile</mat-label>
+    <input matInput formControlName="mobile">
+  </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="submitForm()">Envoyer</button>
-</form> -->
+  <mat-form-field class="custom-form-field" appearance="outline" *ngIf="!stepOne">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email">
+  </mat-form-field>
+
+  <!-- Champ de texte pour le message -->
+  <mat-form-field class="custom-form-field" appearance="outline" *ngIf="!stepOne">
+    <mat-label>Laisser un message au restaurateur</mat-label>
+    <textarea matInput formControlName="message" rows="5"></textarea>
+  </mat-form-field>
+
+  <button *ngIf="!stepOne" class="send" mat-raised-button color="primary"
+    [disabled]="this.form.get('firstName')?.value== '' || this.form.get('lastName')?.value ==''|| this.form.get('mobile')?.value ==''|| this.form.get('email')?.value ==''|| !form.valid"
+    (click)="submitForm()">Reserver</button>
+</form>
