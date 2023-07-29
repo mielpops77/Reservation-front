@@ -3,6 +3,5 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/cd4ba5c6-fb60-45d8-b743-9293108b62c7/resourceGroups/SampleRessourceGroup/providers/Microsoft.Web/sites/couscousAmDav",
-    "appService.deploySubpath": "dist\\reservation"
+    "appService.defaultWebAppToDeploy": "/subscriptions/cd4ba5c6-fb60-45d8-b743-9293108b62c7/resourceGroups/SampleRessourceGroup/providers/Microsoft.Web/sites/couscousAmDav"
 }
