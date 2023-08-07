@@ -1,0 +1,33 @@
+/* annulation.component.scss */
+.center-rectangle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Centrer verticalement */
+    background-color: #f0f0f0; /* Couleur de fond pour le rectangle */
+  
+    .details-container {
+      width: 400px; /* Largeur du rectangle */
+      padding: 20px;
+      border: 2px solid #333; /* Bordure pour le rectangle */
+      background-color: #fff; /* Couleur de fond pour le contenu à l'intérieur du rectangle */
+      
+      .reservation-details {
+        text-align: center; /* Centrer le texte */
+      }
+      h2 {
+        text-align: center;
+      }
+  
+      hr {
+        border: none;
+        border-bottom: 1px solid #333;
+      }
+  
+      button {
+        display: block;
+        margin: 20px auto;
+      }
+    }
+  }
+  

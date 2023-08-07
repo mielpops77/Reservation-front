@@ -1,0 +1,15 @@
+<!-- annulation.component.html -->
+<div class="center-rectangle">
+  <div class="details-container">
+    <h2>Détail de la réservation</h2>
+    <hr>
+    <div class="reservation-details">
+      <p>Réservation au restaurant MANGIA VELIZY,</p>
+      <p>le {{ reservation?.date }} à {{ reservation?.hour }}, pour {{ reservation?.nombrePersonnes }} personne{{
+        reservation?.nombrePersonnes !==1 ? 's' : '' }}</p>
+      <p>par {{ reservation?.firstName }} {{ reservation?.lastName }} ({{ reservation?.mobile }})</p>
+    </div>
+    <hr>
+    <button mat-raised-button color="warn" (click)="annulerReservation()">Annuler la réservation</button>
+  </div>
+</div>
